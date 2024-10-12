@@ -19,7 +19,6 @@ export const ListItem = ({ item, updateItem, disabled }: ListItemProps) => {
   }
 
   const handleCheck = (checked: boolean) => {
-    console.log('handleCheck')
     updateItem(item.id, checked)
   }
 
@@ -36,7 +35,7 @@ export const ListItem = ({ item, updateItem, disabled }: ListItemProps) => {
         <Checkbox
           checked={isComplete}
           onChange={(_, checked) => handleCheck(checked)}
-          disabled={disabled || isComplete}
+          disabled={disabled}
         />
         <Typography
           fontSize={18}

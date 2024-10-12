@@ -6,7 +6,6 @@ import {
   updateTodoItem,
 } from './TodoList.helpers'
 import { Stack, Box } from '@mui/material'
-import toast from 'react-hot-toast'
 import { ListItem } from './components'
 
 export const TodoList = () => {
@@ -14,24 +13,17 @@ export const TodoList = () => {
   const [isUpdating, setIsUpdating] = useState(false)
   const [listItems, setListItems] = useState<TodoItem[]>([])
 
-  const updateItem = (id: string, checked: boolean) => {
+  const updateItem = async (id: string, checked: boolean) => {
     setIsUpdating(true)
 
-    toast
-      .promise(updateTodoItem(id, checked), {
-        loading: 'Updating item',
-        success: 'Success!',
-        error: 'Error updating item',
-      })
-      .then(response => {
-        console.log('response', response)
-        if (response.data.status === 'success') {
-          const updated = listItems.map(item =>
-            item.id === id ? { ...item, isComplete: checked } : item
-          )
-          setListItems(formatData(updated))
-        }
-      })
+    const { data } = await updateTodoItem(id, checked)
+
+    if (data.status === 'success') {
+      const updated = listItems.map(item =>
+        item.id === id ? { ...item, isComplete: checked } : item
+      )
+      setListItems(formatData(updated))
+    }
 
     setIsUpdating(false)
   }

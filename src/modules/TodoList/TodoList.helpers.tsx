@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { compareAsc } from 'date-fns'
 
 export interface TodoItem {
   id: string
@@ -17,6 +18,7 @@ export const formatData = (data: Omit<TodoItem, 'isOverdue'>[]): TodoItem[] => {
     }))
     .sort((a, b) => {
       if (a.isOverdue) return -1
+      if (b.isOverdue) return 1
       if (a.isComplete) return 1
       if (b.isComplete) return -1
       if (a.dueDate && b.dueDate) {
