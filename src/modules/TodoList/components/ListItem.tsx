@@ -1,4 +1,11 @@
-import { Box, Checkbox, Stack, Typography, useTheme } from '@mui/material'
+import {
+  Box,
+  Checkbox,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material'
 import { format } from 'date-fns'
 import { TodoItem } from '../TodoList.helpers'
 
@@ -10,6 +17,7 @@ interface ListItemProps {
 
 export const ListItem = ({ item, updateItem, disabled }: ListItemProps) => {
   const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
   const { dueDate, isComplete, isOverdue } = item
 
   const getColor = () => {
@@ -24,9 +32,9 @@ export const ListItem = ({ item, updateItem, disabled }: ListItemProps) => {
 
   return (
     <Stack
-      direction="row"
+      direction={isMobile ? 'column' : 'row'}
       justifyContent="space-between"
-      alignItems="center"
+      alignItems={isMobile ? 'flex-start' : 'center'}
       sx={{
         background: getColor(),
       }}
@@ -48,7 +56,15 @@ export const ListItem = ({ item, updateItem, disabled }: ListItemProps) => {
         </Typography>
       </Stack>
       {dueDate && (
-        <Box sx={{ border: '1px solid black', p: 0.5, mr: 1 }}>
+        <Box
+          sx={{
+            border: '1px solid black',
+            p: 0.5,
+            mr: 1,
+            mb: { xs: 1, sm: 0 },
+            ml: { xs: 'auto', sm: 0 },
+          }}
+        >
           <Typography>{format(dueDate, 'MM/dd/yyyy')}</Typography>
         </Box>
       )}
