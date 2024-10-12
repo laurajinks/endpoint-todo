@@ -2,7 +2,13 @@ import { Box, Checkbox, Stack, Typography, useTheme } from '@mui/material'
 import { format } from 'date-fns'
 import { TodoItem } from '../TodoList.helpers'
 
-export const ListItem = ({ item }: { item: TodoItem }) => {
+interface ListItemProps {
+  item: TodoItem
+  updateItem: (id: string, checked: boolean) => void
+  disabled: boolean
+}
+
+export const ListItem = ({ item, updateItem, disabled }: ListItemProps) => {
   const theme = useTheme()
   const { dueDate, isComplete, isOverdue } = item
 
@@ -10,6 +16,11 @@ export const ListItem = ({ item }: { item: TodoItem }) => {
     if (isComplete) return theme.palette.success.main
     if (isOverdue) return theme.palette.error.main
     return theme.palette.info.main
+  }
+
+  const handleCheck = (checked: boolean) => {
+    console.log('handleCheck')
+    updateItem(item.id, checked)
   }
 
   return (
@@ -22,7 +33,11 @@ export const ListItem = ({ item }: { item: TodoItem }) => {
       }}
     >
       <Stack direction="row" alignItems="center" sx={{ p: 0.5 }}>
-        <Checkbox />
+        <Checkbox
+          checked={isComplete}
+          onChange={(_, checked) => handleCheck(checked)}
+          disabled={disabled || isComplete}
+        />
         <Typography
           fontSize={18}
           fontWeight={400}

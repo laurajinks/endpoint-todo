@@ -8,7 +8,7 @@ export interface TodoItem {
   dueDate: string | null
 }
 
-const formatData = (data: Omit<TodoItem, 'isOverdue'>[]): TodoItem[] => {
+export const formatData = (data: Omit<TodoItem, 'isOverdue'>[]): TodoItem[] => {
   return data
     .map(d => ({
       ...d,
@@ -34,4 +34,12 @@ export const getTodoList = async (): Promise<TodoItem[]> => {
   )
 
   return formatData(response.data)
+}
+
+export const updateTodoItem = (id: string, isComplete: boolean) => {
+  return axios.patch(
+    `https://b0f179aa-a791-47b5-a7ca-5585ba9e3642.mock.pstmn.io/patch/${id}`,
+    { isComplete },
+    { headers: { 'x-api-key': process.env.REACT_APP_XAPIKEY } }
+  )
 }
