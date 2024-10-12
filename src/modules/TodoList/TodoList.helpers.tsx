@@ -4,7 +4,27 @@ export interface TodoItem {
   id: string
   description: string
   isComplete: boolean
+  isOverdue: boolean
   dueDate: string | null
+}
+
+const formatData = (data: Omit<TodoItem, 'isOverdue'>[]): TodoItem[] => {
+  return data
+    .map(d => ({
+      ...d,
+      isOverdue:
+        d.dueDate && !d.isComplete ? new Date(d.dueDate) < new Date() : false,
+    }))
+    .sort((a, b) => {
+      if (a.isOverdue) return -1
+      if (a.isComplete) return 1
+      if (b.isComplete) return -1
+      if (a.dueDate && b.dueDate) {
+        if (new Date(a.dueDate).valueOf() > new Date(b.dueDate).valueOf())
+          return -1
+      }
+      return 0
+    })
 }
 
 export const getTodoList = async (): Promise<TodoItem[]> => {
@@ -13,5 +33,5 @@ export const getTodoList = async (): Promise<TodoItem[]> => {
     { headers: { 'x-api-key': process.env.REACT_APP_XAPIKEY } }
   )
 
-  return response.data
+  return formatData(response.data)
 }

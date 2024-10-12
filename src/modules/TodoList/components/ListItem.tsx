@@ -4,8 +4,7 @@ import { TodoItem } from '../TodoList.helpers'
 
 export const ListItem = ({ item }: { item: TodoItem }) => {
   const theme = useTheme()
-  const { dueDate, isComplete } = item
-  const isOverdue = dueDate && new Date(dueDate) < new Date()
+  const { dueDate, isComplete, isOverdue } = item
 
   const getColor = () => {
     if (isComplete) return theme.palette.success.main
@@ -28,8 +27,7 @@ export const ListItem = ({ item }: { item: TodoItem }) => {
           fontSize={18}
           fontWeight={400}
           sx={{
-            textDecoration:
-              isOverdue && !isComplete ? 'line-through' : undefined,
+            textDecoration: isComplete ? 'line-through' : undefined,
           }}
         >
           {item.description}
