@@ -1,3 +1,5 @@
+import { AppBar } from '@mui/material'
+
 export const AppHeader = () => {
-  return <>Header</>
+  return <AppBar position="static">Todo App</AppBar>
 }
