@@ -1,6 +1,10 @@
-# Getting Started with Create React App
+# Endpoint Todo
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Local Setup
+
+Add a `.env` file to your local repository and add the X-Api-Key value to the key `REACT_APP_XAPIKEY`
 
 ## Available Scripts
 
