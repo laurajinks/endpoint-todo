@@ -24,12 +24,19 @@ export const ListItem = ({ item }: { item: TodoItem }) => {
     >
       <Stack direction="row" alignItems="center" sx={{ p: 0.5 }}>
         <Checkbox />
-        <Typography fontSize={18} fontWeight={400}>
+        <Typography
+          fontSize={18}
+          fontWeight={400}
+          sx={{
+            textDecoration:
+              isOverdue && !isComplete ? 'line-through' : undefined,
+          }}
+        >
           {item.description}
         </Typography>
       </Stack>
       {dueDate && (
-        <Box sx={{ border: '1px solid black', p: 0.5 }}>
+        <Box sx={{ border: '1px solid black', p: 0.5, mr: 1 }}>
           <Typography>{format(dueDate, 'MM/dd/yyyy')}</Typography>
         </Box>
       )}
